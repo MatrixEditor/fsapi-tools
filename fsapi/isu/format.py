@@ -163,17 +163,6 @@ class ISUArchive:
 
 
 @dataclass_struct
-class ISUDataField:
-    length: int = csfield(cs.Int16ul)
-    unknown_1: int = csfield(cs.Int16ul)
-    name_length: int = csfield(cs.Int16ul)
-    flags: int = csfield(cs.Int16ul)
-    name: str = csfield(cs.PaddedString(16, "utf-8"))
-    value: int | None = csfield(cs.If(cs.this.length == 32, cs.Int32ul))
-    unknown_2: int | None = csfield(cs.If(cs.this.length == 32, cs.Int32ul))
-
-
-@dataclass_struct
 class ISUDataSection:
     magic: int = csfield(cs.Int8ul)
     length: int = csfield(cs.Int8ul)

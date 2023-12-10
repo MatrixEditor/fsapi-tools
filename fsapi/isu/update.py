@@ -36,6 +36,7 @@ import re
 import dataclasses
 import enum
 import xml.etree.ElementTree as xmltree
+import typing as t
 
 from typing import Optional, Union
 from fsapi.netconfig import FSNetConfiguration
