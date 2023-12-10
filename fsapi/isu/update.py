@@ -153,7 +153,7 @@ class UpdateRequest:
     """
 
     status: Union[UpdateStatus, int] = UpdateStatus.ERROR
-    updates: list[ISUSoftwareElement] = dataclasses.field(default_factory=list)
+    updates: t.List[ISUSoftwareElement] = dataclasses.field(default_factory=list)
     error: Optional[Exception] = None
 
     @property

@@ -83,7 +83,7 @@ def get_enum_class(java_class: str) -> str:
     return content.replace("\n", "").replace(" ", "")
 
 
-def get_list_prototype(java_class) -> list[str]:
+def get_list_prototype(java_class) -> t.List[str]:
     prototype = java_class[java_class.find("Prototype == null") :]
     return prototype[prototype.find("{") + 1 : prototype.find("}")].split("\n")
 
