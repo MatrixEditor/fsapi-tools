@@ -1,0 +1,6 @@
+construct
+construct-dataclasses
+colorama
+lzallright
+urllib3
+texttable

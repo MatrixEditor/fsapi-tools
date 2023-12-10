@@ -1,0 +1,6 @@
+<fsapiResponse>
+    <status>FS_OK</status>
+    <value>
+        <u8>0</u8>
+    </value>
+</fsapiResponse>

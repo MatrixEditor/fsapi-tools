@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<fsapiresponse>
+    <status>FS_OK</status>
+    <value>
+        <s32>2</s32>
+    </value>
+</fsapiresponse>

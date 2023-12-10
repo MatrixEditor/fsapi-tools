@@ -1,0 +1,30 @@
+[project]
+name = "fsapi-tools"
+version = "2.0.1"
+description="Frontier Smart Firmware Tools and FSAPI Implementation."
+authors = [
+  { name="MatrixEditor", email="not@supported.com" },
+]
+readme = "README.md"
+classifiers = [
+    'Development Status :: 5 - Production/Stable',
+    'Intended Audience :: Science/Research',
+    'License :: OSI Approved :: MIT License',
+    'Programming Language :: Python :: 3.8',
+    'Programming Language :: Python :: 3.9',
+    'Programming Language :: Python :: 3.10',
+    'Programming Language :: Python :: 3.11',
+  ]
+
+[project.urls]
+"Homepage" = "https://github.com/MatrixEditor/frontier-smart-api"
+"API-Docs" = "https://matrixeditor.github.io/frontier-smart-api/"
+
+[project.scripts]
+isutool = "fsapi.isu.cli:main"
+fsapi-xdr = "fsapi.ecmascript.cli:main"
+fsapi-ctl = "fsapi.net.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["fsapi*"]
