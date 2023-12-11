@@ -62,7 +62,7 @@ from .base import (
 # ============================================================================
 
 
-class netRemote_debug_incidentReport_lastCreatedKey_nt(NodeList):
+class netRemote_debug_incidentReport_list_nt(NodeList):
     class Meta:
         path = "netRemote.debug.incidentReport.list"
         name = "BaseDebugIncidentReportList"

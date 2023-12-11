@@ -11,7 +11,7 @@ import os
 project = 'fsapi-tools'
 copyright = '2022, MatrixEditor'
 author = 'MatrixEditor'
-release = '2.0.1'
+release = '2.0.2'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration

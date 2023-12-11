@@ -109,7 +109,7 @@ devices:
     friendly_name = api.friendly_name
     # or manually
     response = device.get(nodes / "netRemote.sys.info.friendlyName")
-    if response.status == FS_OK:
+    if response.success:
         #_ Again, type(content) = nodes.BaseSysInfoFriendlyName
         friendly_name = response.content.value
 

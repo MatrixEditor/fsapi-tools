@@ -172,7 +172,7 @@ class FSDevice:
             # The new value will be mapped automatically
             self.new_session()
 
-    def get(self, *__nodes: t.Iterable[_NodeType]) -> FSResponse | list[FSResponse]:
+    def get(self, *__nodes: t.Iterable[_NodeType]) -> t.Union[FSResponse, t.List[FSResponse]]:
         nodes = list(__nodes)
         if len(nodes) == 1:
             return self.node_request(Method.GET, nodes[0])
@@ -194,7 +194,7 @@ class FSDevice:
     def list_get_prev(self, node: _NodeType, **argv) -> FSResponse:
         return self.node_request(Method.LIST_GET_PREV, node, **argv)
 
-    def get_notifies(self) -> list[Node]:
+    def get_notifies(self) -> t.List[Node]:
         if self.sid is None or self.sid == -1:
             # NOTE: The unit will only execute this command if the user sends
             # a valid Session ID
@@ -288,20 +288,20 @@ class FSDevice:
     def node_request_multiple(
         self,
         method: Method,
-        nodes: list[_NodeType],
+        nodes: t.List[_NodeType],
         config: FSNetConfiguration = None,
         **argv,
-    ) -> list[FSResponse]:
+    ) -> t.List[FSResponse]:
         """Performs a multiple node request.
 
         :param method: the API method
         :type method: Method
         :param nodes: the list of nodes to query
-        :type nodes: list[_NodeType]
+        :type nodes: t.List[_NodeType]
         :param config: the network configuration, defaults to None
         :type config: FSNetConfiguration, optional
         :return: a list of response objects storing the de-serialized data.
-        :rtype: list[FSResponse]
+        :rtype: t.List[FSResponse]
         """
         node_paths = list(map(self._to_node_path, nodes))
         path_elements = ["fsapi", method.name]
@@ -387,18 +387,18 @@ class FSDevice:
     def _build_parameters(self, parameters: dict) -> str:
         # NOTE: These parameters must occur before any other custom
         # parameter as GET_MULTIPLE would result in errors.
-        query_params = [f"pin={quote(self.pin)}"]
+        query_params = [f"pin={self._quote(self.pin)}"]
         if self.sid is not None and self.sid != -1:
-            query_params.append(f"sid={quote(self.sid)}")
+            query_params.append(f"sid={self._quote(self.sid)}")
 
         for key in parameters:
-            name = quote(key)
+            name = self._quote(key)
             value = parameters[key]
             if isinstance(value, list):
                 for list_element in value:
-                    query_params.append(f"{name}={quote(str(list_element))}")
+                    query_params.append(f"{name}={self._quote(list_element)}")
             else:
-                query_params.append(f"{name}={quote(str(value))}")
+                query_params.append(f"{name}={self._quote(value)}")
         return "&".join(query_params)
 
     def _unmarshal(self, node_path: NodePath, tree: ElementTree.ElementTree) -> Node:
@@ -428,3 +428,6 @@ class FSDevice:
             raise TypeError(f"Invalid node path type: {type(node)}")
 
         return node_path
+
+    def _quote(self, obj: t.Any) -> str:
+        return quote(str(obj))

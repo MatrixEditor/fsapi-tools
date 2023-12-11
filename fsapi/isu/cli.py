@@ -180,7 +180,7 @@ def _run(argv, target: pathlib.Path, pp: DataclassPrinter):
                 # Don't include the data section if no explicitly activated
                 values["archive"].pop("data")
 
-            with open(str(out_path), "w") as fp:
+            with open(str(out_path), "w", encoding="utf-8") as fp:
                 json.dump(values, fp, cls=BytesJSONEncoder)
             pp.print_msg(Fore.LIGHTBLACK_EX, "[out] JSON saved to", str(out_path))
         else:

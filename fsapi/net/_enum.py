@@ -25,6 +25,7 @@ import inspect
 import sys
 import enum
 
+from typing import Optional
 
 class FSAlarmSource(enum.IntEnum):
     BUZZER = 0
@@ -121,14 +122,15 @@ class FSEQPreset(enum.IntEnum):
     NEWS = enum.auto()
 
 
-def enum_value_name(value: int, enum: str) -> str | None:
-    member = get_enum(enum)
+def enum_value_name(value: int, enum_: str) -> Optional[str]:
+    member = get_enum(enum_)
     if member is None:
         return None
-    return member._value2member_map_[value]
+
+    return getattr(member, "_value2member_map_")[value]
 
 
-def get_enum(field_name: str, path: str = None) -> type | None:
+def get_enum(field_name: str, path: str = None) -> Optional[type]:
     module = sys.modules[__name__]
     internal_name = f"FS_{field_name.upper()}"
 

@@ -352,7 +352,7 @@ class NodeBase(type):
         return cls._meta["cacheable"]
 
     @property
-    def prototype(cls) -> list[Argument] | _Dynamic:
+    def prototype(cls) -> t.List[Argument] | _Dynamic:
         """Returns the prototype if this node."""
         return cls._meta["prototype"]
 
@@ -512,11 +512,11 @@ class Node(metaclass=NodeBase):
         return super().__eq__(__value)
 
     @property
-    def value(self) -> int | str | list[NodeListItem] | NodeValue:
+    def value(self) -> int | str | t.List[NodeListItem] | NodeValue:
         """The node's value
 
         :return: the currently applied node value or None
-        :rtype: int | str | list[NodeListItem] | NodeValue
+        :rtype: int | str | t.List[NodeListItem] | NodeValue
         """
         return self.__value
 
@@ -731,11 +731,11 @@ class NodeListItem:
         return f"NodeListItem({repr(self.attrib)})"
 
     @property
-    def fields(self) -> list[str]:
+    def fields(self) -> t.List[str]:
         """Returns a list of field names.
 
         :return: all field names stored by this item.
-        :rtype: list[str]
+        :rtype: t.List[str]
         """
         return list(self.attrib)
 
@@ -776,11 +776,11 @@ class NodeList(Node):
         return iter(self.items)
 
     @property
-    def items(self) -> list[NodeListItem]:
+    def items(self) -> t.List[NodeListItem]:
         """Returns the stored items as a list.
 
         :return: the stored list items
-        :rtype: list[NodeListItem]
+        :rtype: t.List[NodeListItem]
         """
         return self.value
 

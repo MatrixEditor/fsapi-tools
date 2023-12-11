@@ -210,19 +210,19 @@ api = wrap(device)
 friendly_name = api.friendly_name
 # or manually
 response = device.get(nodes / "netRemote.sys.info.friendlyName")
-if response.status == FS_OK:
+if response.success:
     #_ Again, type(content) = nodes.BaseSysInfoFriendlyName
     friendly_name = response.content.value
 
-    # Apply a new name via wrapper
-    api.friendly_name = "FooBar"
-    # or manually
-    device.put(nodes / "netRemote.sys.info.friendlyName", value="FooBar")
+# Apply a new name via wrapper
+api.friendly_name = "FooBar"
+# or manually
+device.put(nodes / "netRemote.sys.info.friendlyName", value="FooBar")
 
 # get all elements of a list
 valid_modes = api.ls_valid_modes()
 # get a certain amount of elements beginning at index 3
-valid_mpdes = api.ls_valid_modes(_pos=3, max_items=10)
+valid_modes = api.ls_valid_modes(_pos=3, max_items=10)
 ```
 
 ## Software Update

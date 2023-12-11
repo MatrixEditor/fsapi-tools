@@ -36,6 +36,7 @@ import re
 import dataclasses
 import enum
 import xml.etree.ElementTree as xmltree
+import typing as t
 
 from typing import Optional, Union
 from fsapi.netconfig import FSNetConfiguration
@@ -153,7 +154,7 @@ class UpdateRequest:
     """
 
     status: Union[UpdateStatus, int] = UpdateStatus.ERROR
-    updates: list[ISUSoftwareElement] = dataclasses.field(default_factory=list)
+    updates: t.List[ISUSoftwareElement] = dataclasses.field(default_factory=list)
     error: Optional[Exception] = None
 
     @property

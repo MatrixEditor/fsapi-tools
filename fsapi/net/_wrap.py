@@ -82,7 +82,7 @@ class APICall(t.Generic[_T]):
     def __init__(self, node_path: str) -> None:
         self.node_path = NodePath(node_path)
 
-    def __get__(self, __instance: t.Any, __owner: type | None = None) -> _T:
+    def __get__(self, __instance: t.Any, __owner: t.Optional[type] = None) -> _T:
         return self.get(__instance)
 
     def __set__(self, __instance: t.Any, __value: _T) -> None:
@@ -119,7 +119,7 @@ class APICall(t.Generic[_T]):
         wrapper.device.put(self.node_path, value=value)
 
 
-class ListAPICall(APICall["list[NodeListItem]"]):
+class ListAPICall(APICall[t.List[NodeListItem]]):
     """Representation for a list API call.
 
     This class behaves differently compared to standard API call variables
@@ -137,22 +137,22 @@ class ListAPICall(APICall["list[NodeListItem]"]):
         super().__init__(node_path)
         self.__instance = None
 
-    def __get__(self, __instance: t.Any, __owner: type | None = None) -> ListAPICall:
+    def __get__(self, __instance: t.Any, __owner: t.Optional[type] = None) -> ListAPICall:
         self.__instance = __instance
         return self
 
-    def __call__(self, _pos=-1, max_items=0xFFFF, **argv) -> list[NodeListItem] | None:
+    def __call__(self, _pos=-1, max_items=0xFFFF, **argv) -> t.List[NodeListItem]:
         argv["_pos"] = _pos
         argv["maxItems"] = max_items
         return self.get(self.__instance, **argv)
 
-    def get(self, wrapper: _Wrapper, **argv) -> list[NodeListItem] | None:
+    def get(self, wrapper: _Wrapper, **argv) -> t.List[NodeListItem]:
         """Returns a list of items.
 
         :param wrapper: the api wrapper instance
         :type wrapper: _Wrapper
         :return: the list returned by the device
-        :rtype: list[NodeListItem] | None
+        :rtype: t.List[NodeListItem]
         """
         response = wrapper.device.list_get_next(self.node_path, **argv)
         if response.status != Status.FS_OK:
@@ -226,13 +226,13 @@ class _Wrapper:
             return self.__device()
         return self.__device
 
-    def get_field(self, name: str) -> APICall | ListAPICall:
+    def get_field(self, name: str) -> t.Union[APICall, ListAPICall]:
         """Returns a field of this instance named by the provided string.
 
         :param name: the field's name
         :type name: str
         :return: the api call wrapper instance
-        :rtype: APICall | ListAPICall
+        :rtype: t.Union[APICall, ListAPICall]
         """
         return getattr(self, name)
 
@@ -287,4 +287,3 @@ class _Wrapper:
     ls_incident_reports: _lac = ListAPICall("netRemote.debug.incidentReport.list")
     ls_clock_sources: _lac = ListAPICall("netRemote.sys.caps.clockSourceList")
     ls_languages: _lac = ListAPICall("netRemote.sys.caps.validLang")
-    ls_: _lac = ListAPICall("netRemote.sys.caps.clockSourceList")

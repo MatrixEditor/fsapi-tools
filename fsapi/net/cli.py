@@ -213,7 +213,7 @@ def View(value: str, search=False, disable_color=False, **kwds) -> None:
 def Get(
     host: str,
     pin: str,
-    nodes: list[str],
+    nodes: t.List[str],
     force_session=False,
     disable_color=False,
     simulate=False,
@@ -423,7 +423,7 @@ def Scan(
         method = Method.GET
         node_cls = (nodes / node).get_node_type()
         if node_cls.is_list:
-            method = method.LIST_GET_NEXT
+            method = Method.LIST_GET_NEXT
 
         if simulate:
             pp.print_url(device.get_url(method, node))

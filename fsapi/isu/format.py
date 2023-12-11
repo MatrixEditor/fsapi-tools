@@ -137,7 +137,7 @@ class ISUArchiveIndexFileEntry:
 @dataclass_struct
 class ISUArchiveIndexDirectoryEntry:
     entry_count: int = csfield(cs.Int8ul)
-    entries: list[ISUArchiveIndexEntry] = subcsfield(
+    entries: t.List[ISUArchiveIndexEntry] = subcsfield(
         ISUArchiveIndexEntry, cs.Array(cs.this.entry_count, ISUArchiveIndexEntry.struct)
     )
 
@@ -147,7 +147,7 @@ class ISUArchiveIndex:
     length: int = csfield(cs.Int8ul)
     name: bytes = csfield(cs.Bytes(cs.this.length))  # always 0
     entry_count: int = csfield(cs.Int8ul)
-    entries: list[ISUArchiveIndexEntry] = subcsfield(
+    entries: t.List[ISUArchiveIndexEntry] = subcsfield(
         ISUArchiveIndexEntry, cs.Array(cs.this.entry_count, ISUArchiveIndexEntry.struct)
     )
 
@@ -160,17 +160,6 @@ class ISUArchive:
     index_size: int = csfield(cs.Int32ul)
     index: ISUArchiveIndex = csfield(ISUArchiveIndex)
     data: bytes = csfield(cs.Bytes(cs.this.size - cs.this.index_size - 4))
-
-
-@dataclass_struct
-class ISUDataField:
-    length: int = csfield(cs.Int16ul)
-    unknown_1: int = csfield(cs.Int16ul)
-    name_length: int = csfield(cs.Int16ul)
-    flags: int = csfield(cs.Int16ul)
-    name: str = csfield(cs.PaddedString(16, "utf-8"))
-    value: int | None = csfield(cs.If(cs.this.length == 32, cs.Int32ul))
-    unknown_2: int | None = csfield(cs.If(cs.this.length == 32, cs.Int32ul))
 
 
 @dataclass_struct
@@ -381,7 +370,7 @@ class it_data_fields:
         self.isu = isu
         self._fields = self._parse_fields()
 
-    def _parse_fields(self) -> list[ISUDataField]:
+    def _parse_fields(self) -> t.List[ISUDataField]:
         index = self.isu.stream.find(b"DecompBuffer")
         if index == -1:
             # Rather return an empty list than raising an error
