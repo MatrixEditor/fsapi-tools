@@ -131,7 +131,7 @@ class NodePrinter(DataclassPrinter):
     def print_node(self, node: Node, indent=3) -> None:
         if node.cls.is_list:
             self._print(" " * indent, "- value:")
-            for i, item in enumerate(node.value):
+            for _, item in enumerate(node.value):
                 # Same format as specified above with the node's prototype
                 msg = " " * (indent + 4) + self.get_array_format(item["key"])
                 self.out(msg + self.get_format("", type(item)))

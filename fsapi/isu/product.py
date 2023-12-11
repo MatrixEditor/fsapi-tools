@@ -26,10 +26,10 @@ there are two RegEx-strings that are used to verify the given verison or customi
 string::
 
   # e.g. ir-mmi-FS2026-0500-0015
-  RE_CUSTOMISATION = r"^\w*-\w*-(FS\d{4})-\d{4}-\d{4}"
+  RE_CUSTOMISATION = r"^\\w*-\\w\\*-(FS\\d{4})-\\d{4}-\\d{4}"
 
   # e.g. 2.6.17c4.EX53330-V1.08
-  RE_VERSION = r"^\d*([.][\d]*\w*\d*){2}[.].*-.*"
+  RE_VERSION = r"^\\d*([.][\\d]*\\w*\\d*){2}[.].*-.*"
 
 Both classes mentioned above can be created with and without their attributes. To load
 a verison or customisation string, you can use the ``loads()`` method in both classes.

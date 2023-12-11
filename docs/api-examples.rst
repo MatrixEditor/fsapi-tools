@@ -111,7 +111,7 @@ devices:
     response = device.get(nodes / "netRemote.sys.info.friendlyName")
     if response.success:
         #_ Again, type(content) = nodes.BaseSysInfoFriendlyName
-        friendly_name = response.content.value
+        friendly_name = response.node.value
 
         # Apply a new name via wrapper
         api.friendly_name = "FooBar"

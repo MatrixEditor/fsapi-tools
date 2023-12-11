@@ -26,7 +26,7 @@ import enum
 
 from xml.etree import ElementTree
 from dataclasses import dataclass
-from typing import Any, Iterator, Type, Union
+from typing import Any, Iterator, Type, Union, List
 
 from ._enum import get_enum
 
@@ -352,7 +352,7 @@ class NodeBase(type):
         return cls._meta["cacheable"]
 
     @property
-    def prototype(cls) -> t.List[Argument] | _Dynamic:
+    def prototype(cls) -> Union[List[Argument], _Dynamic]:
         """Returns the prototype if this node."""
         return cls._meta["prototype"]
 
@@ -512,7 +512,7 @@ class Node(metaclass=NodeBase):
         return super().__eq__(__value)
 
     @property
-    def value(self) -> int | str | t.List[NodeListItem] | NodeValue:
+    def value(self) -> Union[int, str, List[NodeListItem], NodeValue]:
         """The node's value
 
         :return: the currently applied node value or None
@@ -671,7 +671,7 @@ class NodeE8(Node):
         self.defaults = defaults
 
     @property
-    def enum_value(self) -> str | Any | None:
+    def enum_value(self) -> Union[str, Any, None]:
         """Returns the associated value's name (if present)
 
         :return: the value's names

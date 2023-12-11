@@ -115,7 +115,6 @@ class ISUSoftwareElement:
 
 class UpdateError(Exception):
     """Base class for general update related errors."""
-    pass
 
 
 class MalformedMACError(UpdateError):
@@ -124,12 +123,10 @@ class MalformedMACError(UpdateError):
 
 class CustomisationError(UpdateError):
     """Raised if an invalid customisation is passed."""
-    pass
 
 
 class VersionError(UpdateError):
     """Raised if an invalid version is passed."""
-    pass
 
 
 class UpdateStatus(enum.IntEnum):
