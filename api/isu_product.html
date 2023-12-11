@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ISU - Version and Customisation &mdash; fsapi-tools 2.0.2 documentation</title>
+  <title>ISU - Version and Customisation &mdash; fsapi-tools 2.0.3 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
 
@@ -13,7 +13,7 @@
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../_static/documentation_options.js?v=c2377ec0"></script>
+        <script src="../_static/documentation_options.js?v=664ffad9"></script>
         <script src="../_static/doctools.js?v=888ff710"></script>
         <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
@@ -634,7 +634,7 @@ string, the classes <code class="docutils literal notranslate"><span class="pre"
 there are two RegEx-strings that are used to verify the given verison or customisation
 string:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># e.g. ir-mmi-FS2026-0500-0015</span>
-<span class="n">RE_CUSTOMISATION</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;^\w*-\w*-(FS\d</span><span class="si">{4}</span><span class="s2">)-\d</span><span class="si">{4}</span><span class="s2">-\d</span><span class="si">{4}</span><span class="s2">&quot;</span>
+<span class="n">RE_CUSTOMISATION</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;^\w*-\w\*-(FS\d</span><span class="si">{4}</span><span class="s2">)-\d</span><span class="si">{4}</span><span class="s2">-\d</span><span class="si">{4}</span><span class="s2">&quot;</span>
 
 <span class="c1"># e.g. 2.6.17c4.EX53330-V1.08</span>
 <span class="n">RE_VERSION</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;^\d*([.][\d]*\w*\d*)</span><span class="si">{2}</span><span class="s2">[.].*-.*&quot;</span>
