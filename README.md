@@ -38,7 +38,7 @@ To utilize the tools provided by this repository, the majority of available firm
 
 ## Documents
 
-A comprehensive review of the firmware binaries used to update Frontier Smart devices is available in the following document: [Firmware-Analysis](https://matrixeditor.github.io/fsapi-tools/firmware-analysis.html). The documentation for the Frontier Smart API (NetRemoteApi) can be found here: [FSAPI Docs](https://matrixeditor.github.io/fsapi-tools/api/netremote/index.html). Additionally, the decompiler for ECMAScript is located in the `decompiler/` directory, which can be utilized for decompiling purposes.
+A comprehensive review of the firmware binaries used to update Frontier Smart devices is available in the following document: [Firmware-Analysis](https://matrixeditor.github.io/fsapi-tools/firmware-analysis.html). The documentation for the Frontier Smart API (NetRemoteApi) can be found here: [FSAPI Docs](https://matrixeditor.github.io/fsapi-tools/fsapi-tools.html). Additionally, the decompiler for ECMAScript is located in the `decompiler/` directory, which can be utilized for decompiling purposes.
 
 ## Overview
 
