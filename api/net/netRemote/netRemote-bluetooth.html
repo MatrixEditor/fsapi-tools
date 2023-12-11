@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>netRemote.bluetooth &mdash; fsapi-tools 2.0.2 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../../_static/documentation_options.js?v=c2377ec0"></script>
+        <script src="../../../_static/doctools.js?v=888ff710"></script>
+        <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="netRemote.platform" href="netRemote-platform.html" />
+    <link rel="prev" title="netRemote.avs" href="netRemote-avs.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            fsapi-tools
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../firmware-analysis.html">FS Firmware Analysis</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../firmware-analysis.html#binary-analysis">Binary Analysis</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../firmware-analysis.html#extracting-files">Extracting Files</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../firmware-analysis.html#the-core">The CORE</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../firmware-structure.html">FS Firmware Structure</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../firmware-structure.html#header-structure">Header Structure</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../firmware-structure.html#isu-header">ISU Header</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../firmware-structure.html#isu-extended-header">ISU Extended Header</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../firmware-structure.html#data-fields">Data Fields</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../firmware-structure.html#data-sections">Data Sections</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../firmware-structure.html#directory-archive">Directory Archive</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../firmware-structure.html#directory-archive-index">Directory Archive Index</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../firmware-structure.html#contents-of-a-directory-archive">Contents of a Directory Archive</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../isutool.html">ISUTool</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../isutool.html#displaying-isu-header">Displaying ISU Header</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../isutool.html#displaying-datafields">Displaying DataFields</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../isutool.html#displaying-the-directory-archive">Displaying the Directory Archive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../isutool.html#export-to-json">Export to JSON</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../isutool.html#extraction-of-compressed-encrypted-core-data">Extraction of Compressed/Encrypted Core-Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../isutool.html#extraction-of-directory-archive">Extraction of Directory Archive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../isutool.html#general-options">General Options</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../fsapi-tools.html">FSAPI Tools</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../fsapi-tools.html#xdr-decompiler">XDR Decompiler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../fsapi-tools.html#fs-net-api">FS NET-API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../fsapi-tools.html#fetching-a-node-s-value">Fetching a Node’s value</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../fsapi-tools.html#viewing-a-node-class">Viewing a node class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../fsapi-tools.html#changing-a-node-s-value">Changing a Node’s value</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../fsapi-tools.html#generating-an-update-url">Generating an Update-URL</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../fsapi-tools.html#download-firmware-updates">Download Firmware Updates</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../fsapi-tools.html#common-options">Common Options</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api-examples.html">API Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../api-examples.html#isu-api">ISU API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api-examples.html#parsing-isu-files">Parsing ISU Files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api-examples.html#getting-data-of-an-archive-file">Getting Data of an Archive File</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api-examples.html#creating-data-sections">Creating Data Sections</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api-examples.html#generating-an-update-url">Generating an update URL</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api-examples.html#fs-api">FS API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api-examples.html#fetching-all-notifies">Fetching all notifies</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../nodes.html">Node Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../nodes.html#reference-structure">Reference Structure</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../nodes.html#netremote-nodes">NetRemote Nodes</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="netRemote-airplay.html">netRemote.airplay</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-airplay.html#baseairplayclearpassword-netremote-airplay-clearpassword">BaseAirplayClearPassword (netRemote.airplay.clearPassword)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-airplay.html#baseairplaysetpassword-netremote-airplay-setpassword">BaseAirplaySetPassword (netRemote.airplay.setPassword)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="netRemote-avs.html">netRemote.avs</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-avs.html#baseavsalarmvolume-netremote-avs-alarmvolume">BaseAvsAlarmVolume (netRemote.avs.alarmVolume)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-avs.html#baseavsauthcode-netremote-avs-authcode">BaseAvsAuthcode (netRemote.avs.authcode)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-avs.html#baseavshastoken-netremote-avs-hastoken">BaseAvsHastoken (netRemote.avs.hastoken)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-avs.html#baseavslocale-netremote-avs-locale">BaseAvsLocale (netRemote.avs.locale)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-avs.html#baseavslogout-netremote-avs-logout">BaseAvsLogout (netRemote.avs.logout)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-avs.html#baseavsmetadata-netremote-avs-metadata">BaseAvsMetadata (netRemote.avs.metadata)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-avs.html#baseavsproductmetadata-netremote-avs-productmetadata">BaseAvsProductmetadata (netRemote.avs.productmetadata)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-avs.html#baseavstoken-netremote-avs-token">BaseAvsToken (netRemote.avs.token)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-avs.html#baseavsvalidlocales-netremote-avs-validlocales">BaseAvsValidLocales (netRemote.avs.validLocales)</a></li>
+</ul>
+</li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">netRemote.bluetooth</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#basebluetoothconnecteddevices-netremote-bluetooth-connecteddevices">BaseBluetoothConnectedDevices (netRemote.bluetooth.connectedDevices)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#basebluetoothconnecteddeviceslistversion-netremote-bluetooth-connecteddeviceslistversion">BaseBluetoothConnectedDevicesListVersion (netRemote.bluetooth.connectedDevicesListVersion)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#basebluetoothdiscoverablestate-netremote-bluetooth-discoverablestate">BaseBluetoothDiscoverableState (netRemote.bluetooth.discoverableState)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="netRemote-platform.html">netRemote.platform</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-platform.html#baseplatformoemcolorproduct-netremote-platform-oem-colorproduct">BasePlatformOEMColorProduct (netRemote.platform.OEM.colorProduct)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-platform.html#baseplatformoemledintensity-netremote-platform-oem-ledintensity">BasePlatformOEMLedIntensity (netRemote.platform.OEM.ledIntensity)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-platform.html#baseplatformoemledintensitysteps-netremote-platform-oem-ledintensitysteps">BasePlatformOEMLedIntensitySteps (netRemote.platform.OEM.ledIntensitySteps)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-platform.html#baseplatformsoftapupdateupdatemoderequest-netremote-platform-softapupdate-updatemoderequest">BasePlatformSoftApUpdateUpdateModeRequest (netRemote.platform.softApUpdate.updateModeRequest)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-platform.html#baseplatformsoftapupdateupdatemodestatus-netremote-platform-softapupdate-updatemodestatus">BasePlatformSoftApUpdateUpdateModeStatus (netRemote.platform.softApUpdate.updateModeStatus)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="netRemote-sys.html">netRemote.sys</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesysalarmconfig-netremote-sys-alarm-config">BaseSysAlarmConfig (netRemote.sys.alarm.config)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesysalarmconfigchanged-netremote-sys-alarm-configchanged">BaseSysAlarmConfigChanged (netRemote.sys.alarm.configChanged)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesysalarmcurrent-netremote-sys-alarm-current">BaseSysAlarmCurrent (netRemote.sys.alarm.current)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesysalarmduration-netremote-sys-alarm-duration">BaseSysAlarmDuration (netRemote.sys.alarm.duration)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesysalarmsnooze-netremote-sys-alarm-snooze">BaseSysAlarmSnooze (netRemote.sys.alarm.snooze)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesysalarmsnoozing-netremote-sys-alarm-snoozing">BaseSysAlarmSnoozing (netRemote.sys.alarm.snoozing)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesysalarmstatus-netremote-sys-alarm-status">BaseSysAlarmStatus (netRemote.sys.alarm.status)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesysaudioairablequality-netremote-sys-audio-airablequality">BaseSysAudioAirableQuality (netRemote.sys.audio.airableQuality)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#sys-audio-eq-param0-bass-netremote-sys-audio-eqcustom-param0">SYS-Audio: EQ Param0 - Bass (netRemote.sys.audio.eqCustom.param0)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#sys-audio-eq-param1-treble-netremote-sys-audio-eqcustom-param1">SYS-Audio: EQ Param1 - Treble (netRemote.sys.audio.eqCustom.param1)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesysaudioeqcustomparam2-netremote-sys-audio-eqcustom-param2">BaseSysAudioEqCustomParam2 (netRemote.sys.audio.eqCustom.param2)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesysaudioeqcustomparam3-netremote-sys-audio-eqcustom-param3">BaseSysAudioEqCustomParam3 (netRemote.sys.audio.eqCustom.param3)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesysaudioeqcustomparam4-netremote-sys-audio-eqcustom-param4">BaseSysAudioEqCustomParam4 (netRemote.sys.audio.eqCustom.param4)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#sys-audio-eq-loudness-netremote-sys-audio-eqloudness">SYS-Audio: EQ Loudness (netRemote.sys.audio.eqLoudness)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#sys-audio-eq-preset-netremote-sys-audio-eqpreset">SYS-Audio: EQ Preset (netRemote.sys.audio.eqPreset)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesysaudioextstaticdelay-netremote-sys-audio-extstaticdelay">BaseSysAudioExtStaticDelay (netRemote.sys.audio.extStaticDelay)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#sys-audio-mute-netremote-sys-audio-mute">SYS-Audio: Mute (netRemote.sys.audio.mute)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#sys-audio-volume-netremote-sys-audio-volume">SYS-Audio: Volume (netRemote.sys.audio.volume)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesyscapsclocksourcelist-netremote-sys-caps-clocksourcelist">BaseSysCapsClockSourceList (netRemote.sys.caps.clockSourceList)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesyscapsdabfreqlist-netremote-sys-caps-dabfreqlist">BaseSysCapsDabFreqList (netRemote.sys.caps.dabFreqList)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesyscapseqbands-netremote-sys-caps-eqbands">BaseSysCapsEqBands (netRemote.sys.caps.eqBands)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#sys-caps-eq-presets-netremote-sys-caps-eqpresets">SYS-Caps: EQ Presets (netRemote.sys.caps.eqPresets)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesyscapsextstaticdelaymax-netremote-sys-caps-extstaticdelaymax">BaseSysCapsExtStaticDelayMax (netRemote.sys.caps.extStaticDelayMax)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesyscapsfmfreqrangelower-netremote-sys-caps-fmfreqrange-lower">BaseSysCapsFmFreqRangeLower (netRemote.sys.caps.fmFreqRange.lower)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesyscapsfmfreqrangestepsize-netremote-sys-caps-fmfreqrange-stepsize">BaseSysCapsFmFreqRangeStepSize (netRemote.sys.caps.fmFreqRange.stepSize)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesyscapsfmfreqrangeupper-netremote-sys-caps-fmfreqrange-upper">BaseSysCapsFmFreqRangeUpper (netRemote.sys.caps.fmFreqRange.upper)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesyscapsfsdca-netremote-sys-caps-fsdca">BaseSysCapsFsdca (netRemote.sys.caps.fsdca)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesyscapsutcsettingslist-netremote-sys-caps-utcsettingslist">BaseSysCapsUtcSettingsList (netRemote.sys.caps.utcSettingsList)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesyscapsvalidlang-netremote-sys-caps-validlang">BaseSysCapsValidLang (netRemote.sys.caps.validLang)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesyscapsvalidmodes-netremote-sys-caps-validmodes">BaseSysCapsValidModes (netRemote.sys.caps.validModes)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesyscapsvolumesteps-netremote-sys-caps-volumesteps">BaseSysCapsVolumeSteps (netRemote.sys.caps.volumeSteps)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesyscfgirautoplayflag-netremote-sys-cfg-irautoplayflag">BaseSysCfgIrAutoPlayFlag (netRemote.sys.cfg.irAutoPlayFlag)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesysclockdateformat-netremote-sys-clock-dateformat">BaseSysClockDateFormat (netRemote.sys.clock.dateFormat)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesysclockdst-netremote-sys-clock-dst">BaseSysClockDst (netRemote.sys.clock.dst)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesysclocklocaldate-netremote-sys-clock-localdate">BaseSysClockLocalDate (netRemote.sys.clock.localDate)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesysclocklocaltime-netremote-sys-clock-localtime">BaseSysClockLocalTime (netRemote.sys.clock.localTime)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesysclockmode-netremote-sys-clock-mode">BaseSysClockMode (netRemote.sys.clock.mode)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesysclocksource-netremote-sys-clock-source">BaseSysClockSource (netRemote.sys.clock.source)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesysclocktimezone-netremote-sys-clock-timezone">BaseSysClockTimeZone (netRemote.sys.clock.timeZone)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesysclockutcoffset-netremote-sys-clock-utcoffset">BaseSysClockUtcOffset (netRemote.sys.clock.utcOffset)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesysfactoryreset-netremote-sys-factoryreset">BaseSysFactoryReset (netRemote.sys.factoryReset)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesysinfoactivesession-netremote-sys-info-activesession">BaseSysInfoActiveSession (netRemote.sys.info.activeSession)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesysinfobuildversion-netremote-sys-info-buildversion">BaseSysInfoBuildVersion (netRemote.sys.info.buildVersion)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesysinfocontrollername-netremote-sys-info-controllername">BaseSysInfoControllerName (netRemote.sys.info.controllerName)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesysinfodmruuid-netremote-sys-info-dmruuid">BaseSysInfoDmruuid (netRemote.sys.info.dmruuid)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#sys-info-friendly-name-netremote-sys-info-friendlyname">SYS-Info: Friendly Name (netRemote.sys.info.friendlyName)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesysinfomodelname-netremote-sys-info-modelname">BaseSysInfoModelName (netRemote.sys.info.modelName)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesysinfonetremotevendorid-netremote-sys-info-netremotevendorid">BaseSysInfoNetRemoteVendorId (netRemote.sys.info.netRemoteVendorId)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#sys-info-radioid-netremote-sys-info-radioid">SYS-Info: RadioID (netRemote.sys.info.radioId)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#info-radion-pin-netremote-sys-info-radiopin">INFO: Radion PIN (netRemote.sys.info.radioPin)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesysinforadiotest-netremote-sys-info-radiotest">BaseSysInfoRadiotest (netRemote.sys.info.radiotest)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#info-serialnumber-netremote-sys-info-serialnumber">INFO: SerialNumber (netRemote.sys.info.serialNumber)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#sys-info-version-netremote-sys-info-version">SYS-Info: Version (netRemote.sys.info.version)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesysipoddockstatus-netremote-sys-ipod-dockstatus">BaseSysIpodDockStatus (netRemote.sys.ipod.dockStatus)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesysisucontrol-netremote-sys-isu-control">BaseSysIsuControl (netRemote.sys.isu.control)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesysisumandatory-netremote-sys-isu-mandatory">BaseSysIsuMandatory (netRemote.sys.isu.mandatory)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesysisusoftwareupdateprogress-netremote-sys-isu-softwareupdateprogress">BaseSysIsuSoftwareUpdateProgress (netRemote.sys.isu.softwareUpdateProgress)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesysisustate-netremote-sys-isu-state">BaseSysIsuState (netRemote.sys.isu.state)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesysisusummary-netremote-sys-isu-summary">BaseSysIsuSummary (netRemote.sys.isu.summary)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesysisuversion-netremote-sys-isu-version">BaseSysIsuVersion (netRemote.sys.isu.version)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesyslang-netremote-sys-lang">BaseSysLang (netRemote.sys.lang)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#sys-mode-netremote-sys-mode">SYS: Mode (netRemote.sys.mode)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesysnetcommitchanges-netremote-sys-net-commitchanges">BaseSysNetCommitChanges (netRemote.sys.net.commitChanges)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesysnetipconfigaddress-netremote-sys-net-ipconfig-address">BaseSysNetIpConfigAddress (netRemote.sys.net.ipConfig.address)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesysnetipconfigdhcp-netremote-sys-net-ipconfig-dhcp">BaseSysNetIpConfigDhcp (netRemote.sys.net.ipConfig.dhcp)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesysnetipconfigdnsprimary-netremote-sys-net-ipconfig-dnsprimary">BaseSysNetIpConfigDnsPrimary (netRemote.sys.net.ipConfig.dnsPrimary)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesysnetipconfigdnssecondary-netremote-sys-net-ipconfig-dnssecondary">BaseSysNetIpConfigDnsSecondary (netRemote.sys.net.ipConfig.dnsSecondary)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesysnetipconfiggateway-netremote-sys-net-ipconfig-gateway">BaseSysNetIpConfigGateway (netRemote.sys.net.ipConfig.gateway)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesysnetipconfigsubnetmask-netremote-sys-net-ipconfig-subnetmask">BaseSysNetIpConfigSubnetMask (netRemote.sys.net.ipConfig.subnetMask)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesysnetkeepconnected-netremote-sys-net-keepconnected">BaseSysNetKeepConnected (netRemote.sys.net.keepConnected)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesysnetuapinterfaceenable-netremote-sys-net-uap-interfaceenable">BaseSysNetUapInterfaceEnable (netRemote.sys.net.uap.interfaceEnable)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesysnetwiredinterfaceenable-netremote-sys-net-wired-interfaceenable">BaseSysNetWiredInterfaceEnable (netRemote.sys.net.wired.interfaceEnable)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesysnetwiredmacaddress-netremote-sys-net-wired-macaddress">BaseSysNetWiredMacAddress (netRemote.sys.net.wired.macAddress)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesysnetwlanactivateprofile-netremote-sys-net-wlan-activateprofile">BaseSysNetWlanActivateProfile (netRemote.sys.net.wlan.activateProfile)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesysnetwlanconnectedssid-netremote-sys-net-wlan-connectedssid">BaseSysNetWlanConnectedSSID (netRemote.sys.net.wlan.connectedSSID)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesysnetwlandeactivateprofile-netremote-sys-net-wlan-deactivateprofile">BaseSysNetWlanDeactivateProfile (netRemote.sys.net.wlan.deactivateProfile)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesysnetwlaninterfaceenable-netremote-sys-net-wlan-interfaceenable">BaseSysNetWlanInterfaceEnable (netRemote.sys.net.wlan.interfaceEnable)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesysnetwlanmacaddress-netremote-sys-net-wlan-macaddress">BaseSysNetWlanMacAddress (netRemote.sys.net.wlan.macAddress)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesysnetwlanperformfcc-netremote-sys-net-wlan-performfcc">BaseSysNetWlanPerformFCC (netRemote.sys.net.wlan.performFCC)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesysnetwlanperformwps-netremote-sys-net-wlan-performwps">BaseSysNetWlanPerformWPS (netRemote.sys.net.wlan.performWPS)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesysnetwlanprofiles-netremote-sys-net-wlan-profiles">BaseSysNetWlanProfiles (netRemote.sys.net.wlan.profiles)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesysnetwlanregion-netremote-sys-net-wlan-region">BaseSysNetWlanRegion (netRemote.sys.net.wlan.region)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesysnetwlanregionfcc-netremote-sys-net-wlan-regionfcc">BaseSysNetWlanRegionFcc (netRemote.sys.net.wlan.regionFcc)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesysnetwlanremoveprofile-netremote-sys-net-wlan-removeprofile">BaseSysNetWlanRemoveProfile (netRemote.sys.net.wlan.removeProfile)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesysnetwlanrssi-netremote-sys-net-wlan-rssi">BaseSysNetWlanRssi (netRemote.sys.net.wlan.rssi)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesysnetwlanscan-netremote-sys-net-wlan-scan">BaseSysNetWlanScan (netRemote.sys.net.wlan.scan)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesysnetwlanscanlist-netremote-sys-net-wlan-scanlist">BaseSysNetWlanScanList (netRemote.sys.net.wlan.scanList)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesysnetwlanselectap-netremote-sys-net-wlan-selectap">BaseSysNetWlanSelectAP (netRemote.sys.net.wlan.selectAP)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesysnetwlanselectprofile-netremote-sys-net-wlan-selectprofile">BaseSysNetWlanSelectProfile (netRemote.sys.net.wlan.selectProfile)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesysnetwlansetauthtype-netremote-sys-net-wlan-setauthtype">BaseSysNetWlanSetAuthType (netRemote.sys.net.wlan.setAuthType)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesysnetwlansetenctype-netremote-sys-net-wlan-setenctype">BaseSysNetWlanSetEncType (netRemote.sys.net.wlan.setEncType)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesysnetwlansetfcctestchannum-netremote-sys-net-wlan-setfcctestchannum">BaseSysNetWlanSetFccTestChanNum (netRemote.sys.net.wlan.setFccTestChanNum)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesysnetwlansetfcctestdatarate-netremote-sys-net-wlan-setfcctestdatarate">BaseSysNetWlanSetFccTestDataRate (netRemote.sys.net.wlan.setFccTestDataRate)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesysnetwlansetfcctesttxdatapattern-netremote-sys-net-wlan-setfcctesttxdatapattern">BaseSysNetWlanSetFccTestTxDataPattern (netRemote.sys.net.wlan.setFccTestTxDataPattern)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesysnetwlansetfcctesttxpower-netremote-sys-net-wlan-setfcctesttxpower">BaseSysNetWlanSetFccTestTxPower (netRemote.sys.net.wlan.setFccTestTxPower)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesysnetwlansetfcctxoff-netremote-sys-net-wlan-setfcctxoff">BaseSysNetWlanSetFccTxOff (netRemote.sys.net.wlan.setFccTxOff)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesysnetwlansetpassphrase-netremote-sys-net-wlan-setpassphrase">BaseSysNetWlanSetPassphrase (netRemote.sys.net.wlan.setPassphrase)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesysnetwlansetssid-netremote-sys-net-wlan-setssid">BaseSysNetWlanSetSSID (netRemote.sys.net.wlan.setSSID)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesysnetwlanwpspinread-netremote-sys-net-wlan-wpspinread">BaseSysNetWlanWpsPinRead (netRemote.sys.net.wlan.wpsPinRead)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#sys-power-netremote-sys-power">SYS: Power (netRemote.sys.power)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesysrsapublickey-netremote-sys-rsa-publickey">BaseSysRsaPublicKey (netRemote.sys.rsa.publicKey)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesysrsastatus-netremote-sys-rsa-status">BaseSysRsaStatus (netRemote.sys.rsa.status)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesyssleep-netremote-sys-sleep">BaseSysSleep (netRemote.sys.sleep)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-sys.html#basesysstate-netremote-sys-state">BaseSysState (netRemote.sys.state)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="netRemote-debug.html">netRemote.debug</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-debug.html#basedebugincidentreportlist-netremote-debug-incidentreport-list">BaseDebugIncidentReportList (netRemote.debug.incidentReport.list)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-debug.html#basedebugincidentreportlastcreatedkey-netremote-debug-incidentreport-lastcreatedkey">BaseDebugIncidentReportLastCreatedKey (netRemote.debug.incidentReport.lastCreatedKey)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-debug.html#basedebugincidentreportdelete-netremote-debug-incidentreport-delete">BaseDebugIncidentReportDelete (netRemote.debug.incidentReport.delete)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-debug.html#basedebugincidentreportcreate-netremote-debug-incidentreport-create">BaseDebugIncidentReportCreate (netRemote.debug.incidentReport.create)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="netRemote-multichannel.html">netRemote.multichannel</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-multichannel.html#basemultichannelprimarychannelmask-netremote-multichannel-primary-channelmask">BaseMultichannelPrimaryChannelmask (netRemote.multichannel.primary.channelmask)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-multichannel.html#basemultichannelsecondary0channelmask-netremote-multichannel-secondary0-channelmask">BaseMultichannelSecondary0Channelmask (netRemote.multichannel.secondary0.channelmask)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-multichannel.html#basemultichannelsecondary0status-netremote-multichannel-secondary0-status">BaseMultichannelSecondary0Status (netRemote.multichannel.secondary0.status)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-multichannel.html#basemultichannelsystemaddsecondary-netremote-multichannel-system-addsecondary">BaseMultichannelSystemAddsecondary (netRemote.multichannel.system.addsecondary)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-multichannel.html#basemultichannelsystemcompatibilityid-netremote-multichannel-system-compatibilityid">BaseMultichannelSystemCompatibilityid (netRemote.multichannel.system.compatibilityid)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-multichannel.html#basemultichannelsystemcreate-netremote-multichannel-system-create">BaseMultichannelSystemCreate (netRemote.multichannel.system.create)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-multichannel.html#basemultichannelsystemid-netremote-multichannel-system-id">BaseMultichannelSystemId (netRemote.multichannel.system.id)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-multichannel.html#basemultichannelsystemname-netremote-multichannel-system-name">BaseMultichannelSystemName (netRemote.multichannel.system.name)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-multichannel.html#basemultichannelsystemremovesecondary-netremote-multichannel-system-removesecondary">BaseMultichannelSystemRemovesecondary (netRemote.multichannel.system.removesecondary)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-multichannel.html#basemultichannelsystemstate-netremote-multichannel-system-state">BaseMultichannelSystemState (netRemote.multichannel.system.state)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-multichannel.html#basemultichannelsystemunpair-netremote-multichannel-system-unpair">BaseMultichannelSystemUnpair (netRemote.multichannel.system.unpair)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="netRemote-cast.html">netRemote.cast</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-cast.html#basecastappname-netremote-cast-appname">BaseCastAppName (netRemote.cast.appName)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-cast.html#basecasttos-netremote-cast-tos">BaseCastTos (netRemote.cast.tos)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-cast.html#basecastusagereport-netremote-cast-usagereport">BaseCastUsageReport (netRemote.cast.usageReport)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-cast.html#basecastversion-netremote-cast-version">BaseCastVersion (netRemote.cast.version)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="netRemote-play.html">netRemote.play</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-play.html#baseplayaddpreset-netremote-play-addpreset">BasePlayAddPreset (netRemote.play.addPreset)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-play.html#baseplayaddpresetstatus-netremote-play-addpresetstatus">BasePlayAddPresetStatus (netRemote.play.addPresetStatus)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-play.html#baseplayalerttone-netremote-play-alerttone">BasePlayAlerttone (netRemote.play.alerttone)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-play.html#baseplaycaps-netremote-play-caps">BasePlayCaps (netRemote.play.caps)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-play.html#baseplayconcurencyresponse-netremote-play-concurencyresponse">BasePlayConcurencyResponse (netRemote.play.ConcurencyResponse)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-play.html#baseplayconcurencystr-netremote-play-concurencystr">BasePlayConcurencyStr (netRemote.play.ConcurencyStr)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-play.html#play-control-netremote-play-control">Play: Control (netRemote.play.control)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-play.html#baseplayerrorstr-netremote-play-errorstr">BasePlayErrorStr (netRemote.play.errorStr)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-play.html#baseplayfeedback-netremote-play-feedback">BasePlayFeedback (netRemote.play.feedback)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-play.html#baseplayfrequency-netremote-play-frequency">BasePlayFrequency (netRemote.play.frequency)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-play.html#play-info-album-netremote-play-info-album">Play-Info: Album (netRemote.play.info.album)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-play.html#baseplayinfoalbumdescription-netremote-play-info-albumdescription">BasePlayInfoAlbumDescription (netRemote.play.info.albumDescription)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-play.html#play-info-artist-netremote-play-info-artist">Play-Info: Artist (netRemote.play.info.artist)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-play.html#baseplayinfoartistdescription-netremote-play-info-artistdescription">BasePlayInfoArtistDescription (netRemote.play.info.artistDescription)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-play.html#baseplayinfodescription-netremote-play-info-description">BasePlayInfoDescription (netRemote.play.info.description)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-play.html#play-info-duration-netremote-play-info-duration">Play-Info: Duration (netRemote.play.info.duration)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-play.html#play-info-graphic-uri-netremote-play-info-graphicuri">Play-Info: Graphic URI (netRemote.play.info.graphicUri)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-play.html#play-info-name-netremote-play-info-name">Play-Info: Name (netRemote.play.info.name)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-play.html#baseplayinfoproviderlogouri-netremote-play-info-providerlogouri">BasePlayInfoProviderLogoUri (netRemote.play.info.providerLogoUri)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-play.html#baseplayinfoprovidername-netremote-play-info-providername">BasePlayInfoProviderName (netRemote.play.info.providerName)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-play.html#play-info-text-netremote-play-info-text">Play-Info: Text (netRemote.play.info.text)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-play.html#baseplaynotificationmessage-netremote-play-notificationmessage">BasePlayNotificationMessage (netRemote.play.NotificationMessage)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-play.html#play-position-netremote-play-position">Play: Position (netRemote.play.position)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-play.html#play-rate-netremote-play-rate">Play: Rate (netRemote.play.rate)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-play.html#baseplayrating-netremote-play-rating">BasePlayRating (netRemote.play.rating)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-play.html#play-repeat-netremote-play-repeat">Play: Repeat (netRemote.play.repeat)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-play.html#baseplayscrobble-netremote-play-scrobble">BasePlayScrobble (netRemote.play.scrobble)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-play.html#baseplayserviceidsdabensembleid-netremote-play-serviceids-dabensembleid">BasePlayServiceIdsDabEnsembleId (netRemote.play.serviceIds.dabEnsembleId)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-play.html#baseplayserviceidsdabscids-netremote-play-serviceids-dabscids">BasePlayServiceIdsDabScids (netRemote.play.serviceIds.dabScids)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-play.html#baseplayserviceidsdabserviceid-netremote-play-serviceids-dabserviceid">BasePlayServiceIdsDabServiceId (netRemote.play.serviceIds.dabServiceId)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-play.html#baseplayserviceidsecc-netremote-play-serviceids-ecc">BasePlayServiceIdsEcc (netRemote.play.serviceIds.ecc)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-play.html#baseplayserviceidsfmrdspi-netremote-play-serviceids-fmrdspi">BasePlayServiceIdsFmRdsPi (netRemote.play.serviceIds.fmRdsPi)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-play.html#play-shuffle-netremote-play-shuffle">Play: Shuffle (netRemote.play.shuffle)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-play.html#baseplayshufflestatus-netremote-play-shufflestatus">BasePlayShuffleStatus (netRemote.play.shuffleStatus)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-play.html#baseplaysignalstrength-netremote-play-signalstrength">BasePlaySignalStrength (netRemote.play.signalStrength)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-play.html#play-status-netremote-play-status">Play: Status (netRemote.play.status)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="netRemote-spotify.html">netRemote.spotify</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-spotify.html#basespotifybitrate-netremote-spotify-bitrate">BaseSpotifyBitRate (netRemote.spotify.bitRate)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-spotify.html#basespotifylasterror-netremote-spotify-lasterror">BaseSpotifyLastError (netRemote.spotify.lastError)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-spotify.html#basespotifyloggedinstate-netremote-spotify-loggedinstate">BaseSpotifyLoggedInState (netRemote.spotify.loggedInState)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-spotify.html#basespotifyloginusingoauthtoken-netremote-spotify-loginusingoauthtoken">BaseSpotifyLoginUsingOauthToken (netRemote.spotify.loginUsingOauthToken)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-spotify.html#basespotifyplaylistname-netremote-spotify-playlist-name">BaseSpotifyPlaylistName (netRemote.spotify.playlist.name)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-spotify.html#basespotifyplaylisturi-netremote-spotify-playlist-uri">BaseSpotifyPlaylistUri (netRemote.spotify.playlist.uri)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-spotify.html#basespotifystatus-netremote-spotify-status">BaseSpotifyStatus (netRemote.spotify.status)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-spotify.html#basespotifyusername-netremote-spotify-username">BaseSpotifyUsername (netRemote.spotify.username)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-spotify.html#netremote-spotify-latesterror-netremote-spotify-latesterror">netremote.spotify.latesterror (netremote.spotify.latesterror)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-spotify.html#netremote-spotify-password-netremote-spotify-password">netremote.spotify.password (netremote.spotify.password)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="netRemote-multiroom.html">netRemote.multiroom</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-multiroom.html#basemultiroomcapsmaxclients-netremote-multiroom-caps-maxclients">BaseMultiroomCapsMaxClients (netRemote.multiroom.caps.maxClients)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-multiroom.html#basemultiroomcapsprotocolversion-netremote-multiroom-caps-protocolversion">BaseMultiroomCapsProtocolVersion (netRemote.multiroom.caps.protocolVersion)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-multiroom.html#basemultiroomclientmute0-netremote-multiroom-client-mute0">BaseMultiroomClientMute0 (netRemote.multiroom.client.mute0)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-multiroom.html#basemultiroomclientmute1-netremote-multiroom-client-mute1">BaseMultiroomClientMute1 (netRemote.multiroom.client.mute1)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-multiroom.html#basemultiroomclientmute2-netremote-multiroom-client-mute2">BaseMultiroomClientMute2 (netRemote.multiroom.client.mute2)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-multiroom.html#basemultiroomclientmute3-netremote-multiroom-client-mute3">BaseMultiroomClientMute3 (netRemote.multiroom.client.mute3)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-multiroom.html#basemultiroomclientstatus0-netremote-multiroom-client-status0">BaseMultiroomClientStatus0 (netRemote.multiroom.client.status0)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-multiroom.html#basemultiroomclientstatus1-netremote-multiroom-client-status1">BaseMultiroomClientStatus1 (netRemote.multiroom.client.status1)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-multiroom.html#basemultiroomclientstatus2-netremote-multiroom-client-status2">BaseMultiroomClientStatus2 (netRemote.multiroom.client.status2)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-multiroom.html#basemultiroomclientstatus3-netremote-multiroom-client-status3">BaseMultiroomClientStatus3 (netRemote.multiroom.client.status3)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-multiroom.html#basemultiroomclientvolume0-netremote-multiroom-client-volume0">BaseMultiroomClientVolume0 (netRemote.multiroom.client.volume0)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-multiroom.html#basemultiroomclientvolume1-netremote-multiroom-client-volume1">BaseMultiroomClientVolume1 (netRemote.multiroom.client.volume1)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-multiroom.html#basemultiroomclientvolume2-netremote-multiroom-client-volume2">BaseMultiroomClientVolume2 (netRemote.multiroom.client.volume2)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-multiroom.html#basemultiroomclientvolume3-netremote-multiroom-client-volume3">BaseMultiroomClientVolume3 (netRemote.multiroom.client.volume3)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-multiroom.html#basemultiroomdeviceclientindex-netremote-multiroom-device-clientindex">BaseMultiroomDeviceClientIndex (netRemote.multiroom.device.clientIndex)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-multiroom.html#basemultiroomdeviceclientstatus-netremote-multiroom-device-clientstatus">BaseMultiroomDeviceClientStatus (netRemote.multiroom.device.clientStatus)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-multiroom.html#multiroom-list-devices-netremote-multiroom-device-listall">Multiroom: List Devices (netRemote.multiroom.device.listAll)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-multiroom.html#basemultiroomdevicelistallversion-netremote-multiroom-device-listallversion">BaseMultiroomDeviceListAllVersion (netRemote.multiroom.device.listAllVersion)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-multiroom.html#basemultiroomdeviceserverstatus-netremote-multiroom-device-serverstatus">BaseMultiroomDeviceServerStatus (netRemote.multiroom.device.serverStatus)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-multiroom.html#basemultiroomdevicetransportoptimisation-netremote-multiroom-device-transportoptimisation">BaseMultiroomDeviceTransportOptimisation (netRemote.multiroom.device.transportOptimisation)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-multiroom.html#basemultiroomgroupaddclient-netremote-multiroom-group-addclient">BaseMultiroomGroupAddClient (netRemote.multiroom.group.addClient)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-multiroom.html#basemultiroomgroupattachedclients-netremote-multiroom-group-attachedclients">BaseMultiroomGroupAttachedClients (netRemote.multiroom.group.attachedClients)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-multiroom.html#basemultiroomgroupbecomeserver-netremote-multiroom-group-becomeserver">BaseMultiroomGroupBecomeServer (netRemote.multiroom.group.becomeServer)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-multiroom.html#basemultiroomgroupcreate-netremote-multiroom-group-create">BaseMultiroomGroupCreate (netRemote.multiroom.group.create)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-multiroom.html#basemultiroomgroupdestroy-netremote-multiroom-group-destroy">BaseMultiroomGroupDestroy (netRemote.multiroom.group.destroy)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-multiroom.html#basemultiroomgroupid-netremote-multiroom-group-id">BaseMultiroomGroupId (netRemote.multiroom.group.id)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-multiroom.html#basemultiroomgroupmastervolume-netremote-multiroom-group-mastervolume">BaseMultiroomGroupMasterVolume (netRemote.multiroom.group.masterVolume)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-multiroom.html#basemultiroomgroupname-netremote-multiroom-group-name">BaseMultiroomGroupName (netRemote.multiroom.group.name)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-multiroom.html#basemultiroomgroupremoveclient-netremote-multiroom-group-removeclient">BaseMultiroomGroupRemoveClient (netRemote.multiroom.group.removeClient)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-multiroom.html#basemultiroomgroupstate-netremote-multiroom-group-state">BaseMultiroomGroupState (netRemote.multiroom.group.state)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-multiroom.html#basemultiroomgroupstreamable-netremote-multiroom-group-streamable">BaseMultiroomGroupStreamable (netRemote.multiroom.group.streamable)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-multiroom.html#basemultiroomsinglegroupstate-netremote-multiroom-singlegroup-state">BaseMultiroomSinglegroupState (netRemote.multiroom.singlegroup.state)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="netRemote-misc.html">netRemote.misc</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-misc.html#basemiscfsdebugcomponent-netremote-misc-fsdebug-component">BaseMiscFsDebugComponent (netRemote.misc.fsDebug.component)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-misc.html#basemiscfsdebugtracelevel-netremote-misc-fsdebug-tracelevel">BaseMiscFsDebugTraceLevel (netRemote.misc.fsDebug.traceLevel)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-misc.html#basemiscnvsdata-netremote-misc-nvs-data">BaseMiscNvsData (netRemote.misc.nvs.data)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-misc.html#netremote-misc-preset-dab-netremote-misc-preset-dab">netremote.misc.preset.dab (netremote.misc.preset.dab)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-misc.html#netremote-misc-preset-fm-netremote-misc-preset-fm">netremote.misc.preset.fm (netremote.misc.preset.fm)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="netRemote-test.html">netRemote.test</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-test.html#basetestiperfcommandline-netremote-test-iperf-commandline">BaseTestIperfCommandLine (netRemote.test.iperf.commandLine)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-test.html#basetestiperfconsole-netremote-test-iperf-console">BaseTestIperfConsole (netRemote.test.iperf.console)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-test.html#basetestiperfexecute-netremote-test-iperf-execute">BaseTestIperfExecute (netRemote.test.iperf.execute)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="netRemote-nav.html">netRemote.nav</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-nav.html#basenavactioncontext-netremote-nav-action-context">BaseNavActionContext (netRemote.nav.action.context)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-nav.html#basenavactiondabprune-netremote-nav-action-dabprune">BaseNavActionDabPrune (netRemote.nav.action.dabPrune)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-nav.html#basenavactiondabscan-netremote-nav-action-dabscan">BaseNavActionDabScan (netRemote.nav.action.dabScan)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-nav.html#nav-action-navigate-netremote-nav-action-navigate">NAV-Action: Navigate (netRemote.nav.action.navigate)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-nav.html#basenavactionselectitem-netremote-nav-action-selectitem">BaseNavActionSelectItem (netRemote.nav.action.selectItem)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-nav.html#basenavactionselectpreset-netremote-nav-action-selectpreset">BaseNavActionSelectPreset (netRemote.nav.action.selectPreset)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-nav.html#basenavamazonmpgetrating-netremote-nav-amazonmpgetrating">BaseNavAmazonMpGetRating (netRemote.nav.amazonMpGetRating)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-nav.html#basenavamazonmplogincomplete-netremote-nav-amazonmplogincomplete">BaseNavAmazonMpLoginComplete (netRemote.nav.amazonMpLoginComplete)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-nav.html#basenavamazonmploginurl-netremote-nav-amazonmploginurl">BaseNavAmazonMpLoginUrl (netRemote.nav.amazonMpLoginUrl)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-nav.html#basenavamazonmpsetrating-netremote-nav-amazonmpsetrating">BaseNavAmazonMpSetRating (netRemote.nav.amazonMpSetRating)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-nav.html#basenavbrowsemode-netremote-nav-browsemode">BaseNavBrowseMode (netRemote.nav.browseMode)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-nav.html#basenavcaps-netremote-nav-caps">BaseNavCaps (netRemote.nav.caps)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-nav.html#basenavcontextdepth-netremote-nav-context-depth">BaseNavContextDepth (netRemote.nav.context.depth)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-nav.html#basenavcontexterrorstr-netremote-nav-context-errorstr">BaseNavContextErrorStr (netRemote.nav.context.errorStr)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-nav.html#basenavcontextformdata-netremote-nav-context-formdata">BaseNavContextFormData (netRemote.nav.context.formData)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-nav.html#basenavcontextformitem-netremote-nav-context-form-item">BaseNavContextFormItem (netRemote.nav.context.form.item)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-nav.html#basenavcontextformoption-netremote-nav-context-form-option">BaseNavContextFormOption (netRemote.nav.context.form.option)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-nav.html#basenavcontextlist-netremote-nav-context-list">BaseNavContextList (netRemote.nav.context.list)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-nav.html#basenavcontextnavigate-netremote-nav-context-navigate">BaseNavContextNavigate (netRemote.nav.context.navigate)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-nav.html#basenavcontextnumitems-netremote-nav-context-numitems">BaseNavContextNumItems (netRemote.nav.context.numItems)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-nav.html#basenavcontextrefresh-netremote-nav-context-refresh">BaseNavContextRefresh (netRemote.nav.context.refresh)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-nav.html#basenavcontextstatus-netremote-nav-context-status">BaseNavContextStatus (netRemote.nav.context.status)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-nav.html#basenavcurrenttitle-netremote-nav-currenttitle">BaseNavCurrentTitle (netRemote.nav.currentTitle)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-nav.html#basenavdabscanupdate-netremote-nav-dabscanupdate">BaseNavDabScanUpdate (netRemote.nav.dabScanUpdate)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-nav.html#basenavdepth-netremote-nav-depth">BaseNavDepth (netRemote.nav.depth)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-nav.html#basenavdescription-netremote-nav-description">BaseNavDescription (netRemote.nav.description)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-nav.html#basenavencformdata-netremote-nav-encformdata">BaseNavEncFormData (netRemote.nav.encFormData)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-nav.html#basenaverrorstr-netremote-nav-errorstr">BaseNavErrorStr (netRemote.nav.errorStr)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-nav.html#basenavformbutton-netremote-nav-form-button">BaseNavFormButton (netRemote.nav.form.button)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-nav.html#basenavformdata-netremote-nav-formdata">BaseNavFormData (netRemote.nav.formData)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-nav.html#basenavformitem-netremote-nav-form-item">BaseNavFormItem (netRemote.nav.form.item)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-nav.html#basenavformoption-netremote-nav-form-option">BaseNavFormOption (netRemote.nav.form.option)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-nav.html#nav-list-netremote-nav-list">NAV: List (netRemote.nav.list)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-nav.html#nav-numitems-netremote-nav-numitems">NAV: NumItems (netRemote.nav.numItems)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-nav.html#basenavpresetcurrentpreset-netremote-nav-preset-currentpreset">BaseNavPresetCurrentPreset (netRemote.nav.preset.currentPreset)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-nav.html#basenavpresetdelete-netremote-nav-preset-delete">BaseNavPresetDelete (netRemote.nav.preset.delete)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-nav.html#basenavpresetdownloadartworkurl-netremote-nav-preset-download-artworkurl">BaseNavPresetDownloadArtworkUrl (netRemote.nav.preset.download.artworkUrl)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-nav.html#basenavpresetdownloadblob-netremote-nav-preset-download-blob">BaseNavPresetDownloadBlob (netRemote.nav.preset.download.blob)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-nav.html#basenavpresetdownloaddownload-netremote-nav-preset-download-download">BaseNavPresetDownloadDownload (netRemote.nav.preset.download.download)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-nav.html#basenavpresetdownloadname-netremote-nav-preset-download-name">BaseNavPresetDownloadName (netRemote.nav.preset.download.name)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-nav.html#basenavpresetdownloadtype-netremote-nav-preset-download-type">BaseNavPresetDownloadType (netRemote.nav.preset.download.type)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-nav.html#basenavpresetlistversion-netremote-nav-preset-listversion">BaseNavPresetListversion (netRemote.nav.preset.listversion)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-nav.html#basenavpresets-netremote-nav-presets">BaseNavPresets (netRemote.nav.presets)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-nav.html#basenavpresetswapindex1-netremote-nav-preset-swap-index1">BaseNavPresetSwapIndex1 (netRemote.nav.preset.swap.index1)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-nav.html#basenavpresetswapindex2-netremote-nav-preset-swap-index2">BaseNavPresetSwapIndex2 (netRemote.nav.preset.swap.index2)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-nav.html#basenavpresetswapswap-netremote-nav-preset-swap-swap">BaseNavPresetSwapSwap (netRemote.nav.preset.swap.swap)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-nav.html#basenavpresetuploadartworkurl-netremote-nav-preset-upload-artworkurl">BaseNavPresetUploadArtworkUrl (netRemote.nav.preset.upload.artworkUrl)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-nav.html#basenavpresetuploadblob-netremote-nav-preset-upload-blob">BaseNavPresetUploadBlob (netRemote.nav.preset.upload.blob)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-nav.html#basenavpresetuploadname-netremote-nav-preset-upload-name">BaseNavPresetUploadName (netRemote.nav.preset.upload.name)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-nav.html#basenavpresetuploadtype-netremote-nav-preset-upload-type">BaseNavPresetUploadType (netRemote.nav.preset.upload.type)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-nav.html#basenavpresetuploadupload-netremote-nav-preset-upload-upload">BaseNavPresetUploadUpload (netRemote.nav.preset.upload.upload)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-nav.html#basenavrefresh-netremote-nav-refresh">BaseNavRefresh (netRemote.nav.refresh)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-nav.html#basenavreleasedate-netremote-nav-releasedate">BaseNavReleaseDate (netRemote.nav.releaseDate)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-nav.html#basenavsearchterm-netremote-nav-searchterm">BaseNavSearchTerm (netRemote.nav.searchTerm)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-nav.html#nav-state-netremote-nav-state">NAV: State (netRemote.nav.state)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-nav.html#nav-status-netremote-nav-status">NAV: Status (netRemote.nav.status)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="netRemote-fsdca.html">netRemote.fsdca</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-fsdca.html#basefsdcaauthcode-netremote-fsdca-authcode">BaseFsdcaAuthCode (netRemote.fsdca.authCode)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-fsdca.html#basefsdcaclientid-netremote-fsdca-clientid">BaseFsdcaClientId (netRemote.fsdca.clientId)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-fsdca.html#basefsdcadisassociate-netremote-fsdca-disassociate">BaseFsdcaDisassociate (netRemote.fsdca.disassociate)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-fsdca.html#basefsdcafsdcaid-netremote-fsdca-fsdcaid">BaseFsdcaFsdcaId (netRemote.fsdca.fsdcaId)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="netRemote-fsdca.html#basefsdcastate-netremote-fsdca-state">BaseFsdcaState (netRemote.fsdca.state)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Developer Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../isu_format.html">ISU - Format</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../isu_format.html#structures">Structures</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../isu_format.html#directory-archive-structures">Directory Archive Structures</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../isu_product.html">ISU - Version and Customisation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../isu_product.html#fsapi.isu.product.FSCustomisation"><code class="docutils literal notranslate"><span class="pre">FSCustomisation</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../isu_product.html#fsapi.isu.product.FSCustomisation.get_module_name"><code class="docutils literal notranslate"><span class="pre">FSCustomisation.get_module_name()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../isu_product.html#fsapi.isu.product.FSCustomisation.loads"><code class="docutils literal notranslate"><span class="pre">FSCustomisation.loads()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../isu_product.html#fsapi.isu.product.FSVersion"><code class="docutils literal notranslate"><span class="pre">FSVersion</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../isu_product.html#fsapi.isu.product.FSVersion.loads"><code class="docutils literal notranslate"><span class="pre">FSVersion.loads()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../isu_update.html">ISU – Firmware Update</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../isu_update.html#fsapi.isu.update.ISUSoftwareElement"><code class="docutils literal notranslate"><span class="pre">ISUSoftwareElement</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../isu_update.html#fsapi.isu.update.ISUSoftwareElement.loadxml"><code class="docutils literal notranslate"><span class="pre">ISUSoftwareElement.loadxml()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../isu_update.html#fsapi.isu.update.url_get_update"><code class="docutils literal notranslate"><span class="pre">url_get_update()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../isu_update.html#fsapi.isu.update.get_update"><code class="docutils literal notranslate"><span class="pre">get_update()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../isu_update.html#fsapi.isu.update.find_update"><code class="docutils literal notranslate"><span class="pre">find_update()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">NET - (Remote) API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../basenode.html">WebAPI Core</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../basenode.html#fsapi.net.nodes"><code class="docutils literal notranslate"><span class="pre">net.nodes</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../basenode.html#fsapi.net.dynamic"><code class="docutils literal notranslate"><span class="pre">net.dynamic</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../basenode.html#fsapi.net.NodeBase"><code class="docutils literal notranslate"><span class="pre">NodeBase</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../basenode.html#fsapi.net.NodeBase.cacheable"><code class="docutils literal notranslate"><span class="pre">NodeBase.cacheable</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../basenode.html#fsapi.net.NodeBase.description"><code class="docutils literal notranslate"><span class="pre">NodeBase.description</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../basenode.html#fsapi.net.NodeBase.is_list"><code class="docutils literal notranslate"><span class="pre">NodeBase.is_list</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../basenode.html#fsapi.net.NodeBase.name"><code class="docutils literal notranslate"><span class="pre">NodeBase.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../basenode.html#fsapi.net.NodeBase.notifying"><code class="docutils literal notranslate"><span class="pre">NodeBase.notifying</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../basenode.html#fsapi.net.NodeBase.path"><code class="docutils literal notranslate"><span class="pre">NodeBase.path</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../basenode.html#fsapi.net.NodeBase.prototype"><code class="docutils literal notranslate"><span class="pre">NodeBase.prototype</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../basenode.html#fsapi.net.NodeBase.read"><code class="docutils literal notranslate"><span class="pre">NodeBase.read()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../basenode.html#fsapi.net.NodeBase.read_list"><code class="docutils literal notranslate"><span class="pre">NodeBase.read_list()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../basenode.html#fsapi.net.NodeBase.readonly"><code class="docutils literal notranslate"><span class="pre">NodeBase.readonly</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../basenode.html#fsapi.net.Node"><code class="docutils literal notranslate"><span class="pre">Node</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../basenode.html#fsapi.net.Node.cls"><code class="docutils literal notranslate"><span class="pre">Node.cls</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../basenode.html#fsapi.net.Node.has_method"><code class="docutils literal notranslate"><span class="pre">Node.has_method()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../basenode.html#fsapi.net.Node.supports_module"><code class="docutils literal notranslate"><span class="pre">Node.supports_module()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../basenode.html#fsapi.net.Node.value"><code class="docutils literal notranslate"><span class="pre">Node.value</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../basenode.html#fsapi.net.NodePath"><code class="docutils literal notranslate"><span class="pre">NodePath</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../basenode.html#fsapi.net.NodePath.create"><code class="docutils literal notranslate"><span class="pre">NodePath.create()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../basenode.html#fsapi.net.NodePath.exists"><code class="docutils literal notranslate"><span class="pre">NodePath.exists()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../basenode.html#fsapi.net.NodePath.from_xml"><code class="docutils literal notranslate"><span class="pre">NodePath.from_xml()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../basenode.html#fsapi.net.NodePath.get_node_type"><code class="docutils literal notranslate"><span class="pre">NodePath.get_node_type()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../basenode.html#fsapi.net.NodePath.iter_nodes"><code class="docutils literal notranslate"><span class="pre">NodePath.iter_nodes()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../basenode.html#fsapi.net.ArgType"><code class="docutils literal notranslate"><span class="pre">ArgType</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../basenode.html#fsapi.net.ArgType.ARG_TYPE_C8"><code class="docutils literal notranslate"><span class="pre">ArgType.ARG_TYPE_C8</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../basenode.html#fsapi.net.ArgType.ARG_TYPE_E8"><code class="docutils literal notranslate"><span class="pre">ArgType.ARG_TYPE_E8</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../basenode.html#fsapi.net.ArgType.ARG_TYPE_S16"><code class="docutils literal notranslate"><span class="pre">ArgType.ARG_TYPE_S16</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../basenode.html#fsapi.net.ArgType.ARG_TYPE_S32"><code class="docutils literal notranslate"><span class="pre">ArgType.ARG_TYPE_S32</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../basenode.html#fsapi.net.ArgType.ARG_TYPE_S8"><code class="docutils literal notranslate"><span class="pre">ArgType.ARG_TYPE_S8</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../basenode.html#fsapi.net.ArgType.ARG_TYPE_U"><code class="docutils literal notranslate"><span class="pre">ArgType.ARG_TYPE_U</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../basenode.html#fsapi.net.ArgType.ARG_TYPE_U16"><code class="docutils literal notranslate"><span class="pre">ArgType.ARG_TYPE_U16</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../basenode.html#fsapi.net.ArgType.ARG_TYPE_U32"><code class="docutils literal notranslate"><span class="pre">ArgType.ARG_TYPE_U32</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../basenode.html#fsapi.net.ArgType.ARG_TYPE_U8"><code class="docutils literal notranslate"><span class="pre">ArgType.ARG_TYPE_U8</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../basenode.html#fsapi.net.ArgType.ARG_TYPE_UNKNOWN"><code class="docutils literal notranslate"><span class="pre">ArgType.ARG_TYPE_UNKNOWN</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../basenode.html#fsapi.net.ArgType.to_python"><code class="docutils literal notranslate"><span class="pre">ArgType.to_python()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../basenode.html#fsapi.net.Argument"><code class="docutils literal notranslate"><span class="pre">Argument</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../basenode.html#fsapi.net.NodeValue"><code class="docutils literal notranslate"><span class="pre">NodeValue</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../basenode.html#node-classes">Node Classes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../basenode.html#fsapi.net.NodeInt"><code class="docutils literal notranslate"><span class="pre">NodeInt</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../basenode.html#fsapi.net.NodeList"><code class="docutils literal notranslate"><span class="pre">NodeList</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../basenode.html#fsapi.net.NodeListItem"><code class="docutils literal notranslate"><span class="pre">NodeListItem</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../basenode.html#fsapi.net.NodeS8"><code class="docutils literal notranslate"><span class="pre">NodeS8</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../basenode.html#fsapi.net.NodeS16"><code class="docutils literal notranslate"><span class="pre">NodeS16</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../basenode.html#fsapi.net.NodeS32"><code class="docutils literal notranslate"><span class="pre">NodeS32</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../basenode.html#fsapi.net.NodeU8"><code class="docutils literal notranslate"><span class="pre">NodeU8</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../basenode.html#fsapi.net.NodeU16"><code class="docutils literal notranslate"><span class="pre">NodeU16</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../basenode.html#fsapi.net.NodeU32"><code class="docutils literal notranslate"><span class="pre">NodeU32</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../basenode.html#fsapi.net.NodeE8"><code class="docutils literal notranslate"><span class="pre">NodeE8</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../basenode.html#fsapi.net.NodeC8"><code class="docutils literal notranslate"><span class="pre">NodeC8</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../device.html">Device API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../device.html#fsapi.net.device.Method"><code class="docutils literal notranslate"><span class="pre">Method</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../device.html#fsapi.net.device.Status"><code class="docutils literal notranslate"><span class="pre">Status</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../device.html#fsapi.net.device.Status.FS_FAIL"><code class="docutils literal notranslate"><span class="pre">Status.FS_FAIL</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../device.html#fsapi.net.device.Status.FS_LIST_END"><code class="docutils literal notranslate"><span class="pre">Status.FS_LIST_END</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../device.html#fsapi.net.device.Status.FS_NODE_BLOCKED"><code class="docutils literal notranslate"><span class="pre">Status.FS_NODE_BLOCKED</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../device.html#fsapi.net.device.Status.FS_NODE_DOES_NOT_EXIST"><code class="docutils literal notranslate"><span class="pre">Status.FS_NODE_DOES_NOT_EXIST</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../device.html#fsapi.net.device.Status.FS_OK"><code class="docutils literal notranslate"><span class="pre">Status.FS_OK</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../device.html#fsapi.net.device.Status.FS_PACKET_BAD"><code class="docutils literal notranslate"><span class="pre">Status.FS_PACKET_BAD</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../device.html#fsapi.net.device.Status.FS_REPLY_TOO_BIG"><code class="docutils literal notranslate"><span class="pre">Status.FS_REPLY_TOO_BIG</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../device.html#fsapi.net.device.Status.FS_REQUEST_INVALID"><code class="docutils literal notranslate"><span class="pre">Status.FS_REQUEST_INVALID</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../device.html#fsapi.net.device.Status.FS_TIMEOUT"><code class="docutils literal notranslate"><span class="pre">Status.FS_TIMEOUT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../device.html#fsapi.net.device.Status.FS_UNKNOWN_STATUS"><code class="docutils literal notranslate"><span class="pre">Status.FS_UNKNOWN_STATUS</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../device.html#fsapi.net.device.FSResponse"><code class="docutils literal notranslate"><span class="pre">FSResponse</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../device.html#fsapi.net.device.FSResponse.method"><code class="docutils literal notranslate"><span class="pre">FSResponse.method</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../device.html#fsapi.net.device.FSResponse.node"><code class="docutils literal notranslate"><span class="pre">FSResponse.node</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../device.html#fsapi.net.device.FSResponse.status"><code class="docutils literal notranslate"><span class="pre">FSResponse.status</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../device.html#fsapi.net.device.FSResponse.success"><code class="docutils literal notranslate"><span class="pre">FSResponse.success</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../device.html#fsapi.net.device.FSDevice"><code class="docutils literal notranslate"><span class="pre">FSDevice</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../device.html#fsapi.net.device.FSDevice.get_url"><code class="docutils literal notranslate"><span class="pre">FSDevice.get_url()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../device.html#fsapi.net.device.FSDevice.node_request"><code class="docutils literal notranslate"><span class="pre">FSDevice.node_request()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../device.html#fsapi.net.device.FSDevice.node_request_multiple"><code class="docutils literal notranslate"><span class="pre">FSDevice.node_request_multiple()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../device.html#fsapi.net.device.FSDevice.request"><code class="docutils literal notranslate"><span class="pre">FSDevice.request()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../device.html#fsapi-wrapper">FSAPI Wrapper</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../device.html#fsapi.net.wrap"><code class="docutils literal notranslate"><span class="pre">wrap()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../device.html#fsapi.net._wrap._Wrapper"><code class="docutils literal notranslate"><span class="pre">_Wrapper</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../device.html#fsapi.net._wrap.APICall"><code class="docutils literal notranslate"><span class="pre">APICall</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../device.html#fsapi.net._wrap.ListAPICall"><code class="docutils literal notranslate"><span class="pre">ListAPICall</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../ecmascript/index.html">ECMAScript-Language module</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../ecmascript/esbin.html">ECMAScript binary decompiler</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../ecmascript/esbin.html#fsapi.ecmascript.esbin.ES_BIN_SUFFIX"><code class="docutils literal notranslate"><span class="pre">esbin.ES_BIN_SUFFIX</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ecmascript/esbin.html#fsapi.ecmascript.esbin.ES_BIN_MAGIC"><code class="docutils literal notranslate"><span class="pre">esbin.ES_BIN_MAGIC</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ecmascript/esbin.html#fsapi.ecmascript.esbin.is_valid_ext"><code class="docutils literal notranslate"><span class="pre">is_valid_ext()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../ecmascript/esbin.html#fsapi.ecmascript.esbin.Decompiler"><code class="docutils literal notranslate"><span class="pre">Decompiler</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../ecmascript/esbin.html#fsapi.ecmascript.esbin.Decompiler.code"><code class="docutils literal notranslate"><span class="pre">Decompiler.code</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../ecmascript/esbin.html#fsapi.ecmascript.esbin.Decompiler.do_final"><code class="docutils literal notranslate"><span class="pre">Decompiler.do_final()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../ecmascript/index.html#basic-usage-0-3-0">Basic usage (&gt;=0.3.0)</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">fsapi-tools</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../nodes.html">Node Reference</a></li>
+      <li class="breadcrumb-item active">netRemote.bluetooth</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/api/net/netRemote/netRemote-bluetooth.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="netremote-bluetooth">
+<span id="net-api-netremote-bluetooth"></span><h1>netRemote.bluetooth<a class="headerlink" href="#netremote-bluetooth" title="Link to this heading">¶</a></h1>
+<section id="basebluetoothconnecteddevices-netremote-bluetooth-connecteddevices">
+<h2>BaseBluetoothConnectedDevices (netRemote.bluetooth.connectedDevices)<a class="headerlink" href="#basebluetoothconnecteddevices-netremote-bluetooth-connecteddevices" title="Link to this heading">¶</a></h2>
+<p><em>TODO</em></p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 25.0%" />
+<col style="width: 25.0%" />
+<col style="width: 25.0%" />
+<col style="width: 25.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Node Path</p></th>
+<th class="head"><p>Methods</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Notifying, Cacheable</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">netRemote.bluetooth.connectedDevices</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">LIST_GET_NEXT</span></code></p></td>
+<td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">NodeList</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">False</span></code>, <code class="docutils literal notranslate"><span class="pre">False</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="literal-block-wrapper docutils container" id="id1">
+<div class="code-block-caption"><span class="caption-text">Example: /fsapi/LIST_GET_NEXT/netRemote.bluetooth.connectedDevices/-1?pin=1234</span><a class="headerlink" href="#id1" title="Link to this code">¶</a></div>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="cp">&lt;!-- TBD --!&gt;</span>
+</pre></div>
+</div>
+</div>
+<hr></section>
+<section id="basebluetoothconnecteddeviceslistversion-netremote-bluetooth-connecteddeviceslistversion">
+<h2>BaseBluetoothConnectedDevicesListVersion (netRemote.bluetooth.connectedDevicesListVersion)<a class="headerlink" href="#basebluetoothconnecteddeviceslistversion-netremote-bluetooth-connecteddeviceslistversion" title="Link to this heading">¶</a></h2>
+<p><em>TODO</em></p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 25.0%" />
+<col style="width: 25.0%" />
+<col style="width: 25.0%" />
+<col style="width: 25.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Node Path</p></th>
+<th class="head"><p>Methods</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Notifying, Cacheable</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">netRemote.bluetooth.connectedDevicesListVersion</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">GET</span></code></p></td>
+<td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">NodeU32</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">True</span></code>, <code class="docutils literal notranslate"><span class="pre">False</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="literal-block-wrapper docutils container" id="id2">
+<div class="code-block-caption"><span class="caption-text">Example: /fsapi/GET/netRemote.bluetooth.connectedDevicesListVersion?pin=1234</span><a class="headerlink" href="#id2" title="Link to this code">¶</a></div>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="cp">&lt;!-- TBD --!&gt;</span>
+</pre></div>
+</div>
+</div>
+<hr></section>
+<section id="basebluetoothdiscoverablestate-netremote-bluetooth-discoverablestate">
+<h2>BaseBluetoothDiscoverableState (netRemote.bluetooth.discoverableState)<a class="headerlink" href="#basebluetoothdiscoverablestate-netremote-bluetooth-discoverablestate" title="Link to this heading">¶</a></h2>
+<p><em>TODO</em></p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 25.0%" />
+<col style="width: 25.0%" />
+<col style="width: 25.0%" />
+<col style="width: 25.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Node Path</p></th>
+<th class="head"><p>Methods</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Notifying, Cacheable</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">netRemote.bluetooth.discoverableState</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">GET</span></code>, <code class="docutils literal notranslate"><span class="pre">SET</span></code></p></td>
+<td><p><code class="xref py py-class docutils literal notranslate"><span class="pre">NodeE8</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">True</span></code>, <code class="docutils literal notranslate"><span class="pre">False</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<p>As this node is of an enum type, you can utilize the following constants in
+its usage:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">0</span></code>: <em>“IDLE”</em></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">1</span></code>: <em>“DISCOVERABLE”</em></p></li>
+</ul>
+<div class="literal-block-wrapper docutils container" id="id3">
+<div class="code-block-caption"><span class="caption-text">Example: /fsapi/GET/netRemote.bluetooth.discoverableState?pin=1234</span><a class="headerlink" href="#id3" title="Link to this code">¶</a></div>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="cp">&lt;!-- TBD --!&gt;</span>
+</pre></div>
+</div>
+</div>
+<hr></section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="netRemote-avs.html" class="btn btn-neutral float-left" title="netRemote.avs" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="netRemote-platform.html" class="btn btn-neutral float-right" title="netRemote.platform" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, MatrixEditor.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
