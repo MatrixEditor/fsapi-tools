@@ -27,6 +27,7 @@ import zlib
 import pathlib
 import dataclasses
 import json
+import binascii
 
 from colorama import Fore
 
@@ -39,7 +40,7 @@ ALLOWED_SUFFIXES = ("isu.bin", "ota.bin")
 class BytesJSONEncoder(json.JSONEncoder):
     def default(self, o: Any) -> Any:
         if isinstance(o, bytes):
-            return o.decode(errors="replace")
+            return binascii.hexlify(o).decode(errors="replace")
         return super().default(o)
 
 
@@ -206,6 +207,7 @@ def _run(argv, target: pathlib.Path, pp: DataclassPrinter):
                             Fore.RED, "[!] Could not decompress core:", str(core.errors)
                         )
                         print(pp_msg)
+                        return
                     fp.write(data)
                 else:
                     msg = "[out] Saved core to"

@@ -26,5 +26,5 @@ module type:
 >>> python3 -m fsapi --help
 """
 
-__version__ = "2.0.3"
+__version__ = "2.0.4"
 __author__ = 'MatrixEditor'

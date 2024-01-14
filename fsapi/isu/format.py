@@ -41,7 +41,7 @@ import mmap
 import enum
 import construct as cs
 
-from lzallright import LZOCompressor, LZOError
+from lzallright import LZOCompressor, LZOError, InputNotConsumed
 from construct_dataclasses import dataclass_struct, csfield, tfield, subcsfield
 
 
@@ -110,8 +110,8 @@ class ISUDataField:
     name_length: int = csfield(cs.Int16ul)
     flags: int = csfield(cs.Int16ul)
     name: str = csfield(cs.PaddedString(cs.this.name_length, "utf-8"))
-    value: int | None = csfield(cs.If(cs.this.length == 32, cs.Int32ul))
     unknown_2: int | None = csfield(cs.If(cs.this.length == 32, cs.Int32ul))
+    value: int | None = csfield(cs.If(cs.this.length == 32, cs.Int32ul))
 
 
 @dataclass_struct
@@ -231,7 +231,7 @@ class ISU(metaclass=isu_t):
     >>> decomp_data = core.decompress(decomp_size.value, verify=True)
     """
 
-    def __init__(self, stream: io.IOBase | mmap.mmap) -> None:
+    def __init__(self, stream: t.Union[io.IOBase, mmap.mmap]) -> None:
         if isinstance(stream, io.IOBase):
             self.stream = mmap.mmap(stream.fileno(), 0)
         elif isinstance(stream, mmap.mmap):
@@ -433,7 +433,7 @@ class isu_core_t:
     :param errors: Optional list of error messages (default: empty list).
     """
 
-    def __init__(self, isu: ISU, data: bytes, compressed=True, *errors) -> None:
+    def __init__(self, isu: ISU, data: bytes, *errors, compressed=True) -> None:
         self.errors = list(errors)
         self.data = data
         self.isu = isu
@@ -469,8 +469,12 @@ class isu_core_t:
                 self.data, output_size_hint=decomp_size
             )
         except LZOError as err:
-            self.errors.append(err)
-            decomp_buf = bytes()  # to prevent errors
+            if isinstance(err, InputNotConsumed):
+                # decompression finished with leftover data
+                _, decomp_buf = err.args
+            else:
+                self.errors.append(err)
+                decomp_buf = bytes()  # to prevent errors
 
         if len(decomp_buf) != decomp_size and verify:
             raise ValueError(
